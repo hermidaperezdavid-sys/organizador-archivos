@@ -1,8 +1,8 @@
 from pathlib import Path
+import shutil
 
 carpeta = Path("carpeta_prueba")
 
-# Diccionario: qué extensión va a qué carpeta
 reglas = {
     ".jpg": "Imagenes",
     ".png": "Imagenes",
@@ -13,6 +13,11 @@ reglas = {
 }
 
 for archivo in carpeta.iterdir():
-    extension = archivo.suffix.lower()      # .JPG y .jpg cuentan igual
+    if archivo.is_dir():                     # nos saltamos las carpetas
+        continue
+    extension = archivo.suffix.lower()
     destino = reglas.get(extension, "Otros")
+    carpeta_destino = carpeta / destino
+    carpeta_destino.mkdir(exist_ok=True)     # crea la carpeta destino si no existe
+    shutil.move(archivo, carpeta_destino / archivo.name)
     print(archivo.name, "->", destino)
