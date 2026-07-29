@@ -1,0 +1,4 @@
+carpeta_prueba/
+__pycache__/
+*.pyc
+.venv/
