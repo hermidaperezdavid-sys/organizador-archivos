@@ -91,7 +91,7 @@ El proyecto está pensado para crecer en tres versiones:
 **V1 — Lo mínimo que funcione**
 - [x] Recorrer una carpeta y listar sus archivos.
 - [x] Detectar la extensión de cada archivo (`.jpg`, `.pdf`, `.exe`...).
-- [ ] Mover cada archivo a una subcarpeta según su tipo (Imágenes, Documentos,
+- [x] Mover cada archivo a una subcarpeta según su tipo (Imágenes, Documentos,
   Instaladores...).
 
 **V2 — Más útil**
