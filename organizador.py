@@ -5,4 +5,4 @@ carpeta = Path("carpeta_prueba")
 
 # Recorro cada elemento que hay dentro
 for archivo in carpeta.iterdir():
-    print(archivo)
+    print(archivo.name, "->", archivo.suffix)
