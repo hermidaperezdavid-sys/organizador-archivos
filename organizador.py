@@ -1,8 +1,18 @@
 from pathlib import Path
 
-# La carpeta que quiero ordenar (de momento, fija)
 carpeta = Path("carpeta_prueba")
 
-# Recorro cada elemento que hay dentro
+# Diccionario: qué extensión va a qué carpeta
+reglas = {
+    ".jpg": "Imagenes",
+    ".png": "Imagenes",
+    ".pdf": "Documentos",
+    ".docx": "Documentos",
+    ".exe": "Instaladores",
+    ".msi": "Instaladores",
+}
+
 for archivo in carpeta.iterdir():
-    print(archivo.name, "->", archivo.suffix)
+    extension = archivo.suffix.lower()      # .JPG y .jpg cuentan igual
+    destino = reglas.get(extension, "Otros")
+    print(archivo.name, "->", destino)
