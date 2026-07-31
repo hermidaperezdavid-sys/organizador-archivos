@@ -95,9 +95,14 @@ def organizar(carpeta):
         #     el check 3, aún no lo tocamos.)
         archivo.rename(destino / archivo.name)
 
-        # Vamos informando de cada movimiento.
-        print(f"  → {archivo.name}  ➜  {categoria}/")
+      # AHORA (check 3): primero pedimos una ruta libre en el destino,
+        # y movemos ahí. Así nunca pisamos un archivo que ya existía.
+        destino_final = ruta_libre(destino, archivo.name)
+        archivo.rename(destino_final)
 
+        # Mostramos el nombre CON el que ha quedado guardado
+        # (será distinto solo si hubo que renombrarlo).
+        print(f"  → {archivo.name}  ➜  {categoria}/{destino_final.name}")
     print("\n✅ Listo.")
 
 
@@ -120,3 +125,30 @@ if __name__ == "__main__":
 
     # Y arrancamos.
     organizar(carpeta_a_ordenar)
+    # ------------------------------------------------------------
+#  FUNCIÓN: buscar un nombre que no esté ocupado (CHECK 3)
+# ------------------------------------------------------------
+def ruta_libre(carpeta_destino, nombre):
+    # 'nombre' es algo como "informe.pdf".
+    # Construimos la ruta candidata: destino / "informe.pdf".
+    candidato = carpeta_destino / nombre
+
+    # Si ahí no hay nada con ese nombre, genial: lo devolvemos tal cual.
+    if not candidato.exists():
+        return candidato
+
+    # Si YA existe, separamos el nombre en dos trozos:
+    #   .stem   -> "informe"  (nombre sin la extensión)
+    #   .suffix -> ".pdf"     (la extensión)
+    tronco = candidato.stem
+    extension = candidato.suffix
+
+    # Vamos probando "informe (1).pdf", "informe (2).pdf"...
+    # hasta encontrar uno que NO exista.
+    contador = 1
+    while True:
+        nuevo_nombre = f"{tronco} ({contador}){extension}"
+        candidato = carpeta_destino / nuevo_nombre
+        if not candidato.exists():
+            return candidato   # este está libre: lo devolvemos
+        contador += 1          # ocupado también: probamos el siguiente número
